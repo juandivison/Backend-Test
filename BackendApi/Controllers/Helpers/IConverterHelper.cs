@@ -7,6 +7,6 @@ namespace BackendApi.Helpers
     public interface IConverterHelper
     {
         Task<Books> ToBookAsync(BookViewModel view);
-        BookViewModel ToBookViewModel(Books bookCobro);
+        BookViewModel ToBookViewModel(Books book);
     }
 }

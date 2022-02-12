@@ -4,16 +4,13 @@ using BackendApi.Models;
 using BackendApiHelpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BackendApi.Controllers
 {
     [ApiController]
     [Route("[api/controller]")]
-    public class BooksController : ControllerBase
+    public class BooksController : Controller
     {
 
         private readonly IBookRepository bookRepository;
@@ -44,24 +41,22 @@ namespace BackendApi.Controllers
                 return new NotFoundViewResult("BookNotFound");
             }
 
-            var bookCobro = await this.bookRepository.GetByIdAsync(id.Value);
-            if (bookCobro == null)
+            var book = await this.bookRepository.GetByIdAsync(id.Value);
+            if (book == null)
             {
                 return new NotFoundViewResult("BookNotFound");
             }
 
-            return View(bookCobro);
+            return View(book);
         }
-
-        // GET: DetalleCobros/Create
+                
         //[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             var model = new BookViewModel();           
             return View(model);
         }
-
-        // POST: DetalleCobros/Create
+                
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,39 +111,37 @@ namespace BackendApi.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    return new NotFoundViewResult("DetallecobroNotFound");
+                    return new NotFoundViewResult("BookNotFound");
                 }
             }
             return View(book);
         }
-
-        // GET: DetalleCobros/Delete/5
+               
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return new NotFoundViewResult("DetallecobroNotFound");
+                return new NotFoundViewResult("BookNotFound");
             }
 
-            var detalleCobro = await this.detalleCobroRepository.GetByIdAsync(id.Value); ;
-            if (detalleCobro == null)
+            var book = await this.bookRepository.GetByIdAsync(id.Value); ;
+            if (book == null)
             {
-                return new NotFoundViewResult("DetallecobroNotFound");
+                return new NotFoundViewResult("BookNotFound");
             }
 
-            return View(detalleCobro);
+            return View(book);
         }
-
-        // POST: DetalleCobros/Delete/5
+                
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var detalleCobro = await this.detalleCobroRepository.GetByIdAsync(id);
-            await this.detalleCobroRepository.UpdateAsync(detalleCobro);
+            var book = await this.bookRepository.GetByIdAsync(id);
+            await this.bookRepository.UpdateAsync(book);
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult DetallecobroNotFound()
+        public IActionResult BookNotFound()
         {
             return this.View();
         }

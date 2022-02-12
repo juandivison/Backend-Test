@@ -31,17 +31,16 @@
                     PublishDate = view.PublishDate == null ? System.DateTime.Now: view.PublishDate,                                        
                 };
 
-                return book;
+                return  book;
             }
             catch (System.Exception)
             {
-         
-            }
-            return book;
+                return null;         
+            }           
         }
         public BookViewModel ToBookViewModel(Books book)
         {
-            BookViewModel dView = null;
+            BookViewModel dView;
             dView  = new BookViewModel
             {
                 Id = book.Id,
